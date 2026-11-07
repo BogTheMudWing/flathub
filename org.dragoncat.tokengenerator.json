@@ -1,0 +1,51 @@
+{
+	"id": "org.dragoncat.tokengenerator",
+	"runtime": "org.kde.Platform",
+	"runtime-version": "6.11",
+	"sdk": "org.kde.Sdk",
+	"command": "tokengenerator",
+	"sdk-extensions": [
+		"org.freedesktop.Sdk.Extension.rust-stable"
+	],
+	"build-options": {
+		"append-path": "/usr/lib/sdk/rust-stable/bin"
+	},
+	"finish-args": [
+		"--share=ipc",
+		"--device=dri",
+		"--socket=fallback-x11",
+		"--socket=wayland"
+	],
+	"modules": [
+		{
+			"buildsystem": "cmake",
+			"name": "corrosion",
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://github.com/corrosion-rs/corrosion.git",
+					"tag": "v0.6.1"
+				}
+			]
+		},
+		{
+			"buildsystem": "cmake",
+			"name": "tokengenerator",
+			"sources": [
+				"cargo-sources.json",
+				{
+					"type": "dir",
+					"path": "."
+				},
+				{
+					"type": "shell",
+					"commands": [
+						"mkdir -p .cargo",
+						"cp -vf cargo/config .cargo/config.toml"
+					]
+				}
+			]
+		}
+	]
+
+}
